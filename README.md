@@ -11,7 +11,7 @@ import "json"
 
 rule jsonrule {
     condition:
-        demo.kv("hello", "world")
+        json.kv("hello", "world")
 }
 ```
 
