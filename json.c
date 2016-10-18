@@ -5,16 +5,10 @@
 #define MODULE_NAME json
 
 
+
 define_function(key_value) {
-    YR_SCAN_CONTEXT* context = scan_context();
-    YR_MEMORY_BLOCK* block = first_memory_block(context);
-    uint8_t* block_data = block->fetch_data(block);
-
-    json_error_t json_error;
-    json_t* json = json_loads((const char*) block_data, 0, &json_error);
-
+    json_t* json = module()->data;
     if (json == NULL) {
-        printf("\nFailed to load JSON: %s (line: %i, col: %i, pos: %i)\n", json_error.text, json_error.line, json_error.column, json_error.position);
         return ERROR_INVALID_FILE;
     }
 
@@ -52,6 +46,13 @@ int module_finalize(YR_MODULE* module) {
 
 
 int module_load(YR_SCAN_CONTEXT* context, YR_OBJECT* module_object, void* module_data, size_t module_data_size) {
+    YR_MEMORY_BLOCK* block = first_memory_block(context);
+    uint8_t* block_data = block->fetch_data(block);
+
+    json_error_t json_error;
+    json_t* json = json_loads((const char*) block_data, 0, &json_error);
+    module_object->data = json;
+
     return ERROR_SUCCESS;
 }
 
