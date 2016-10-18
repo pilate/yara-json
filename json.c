@@ -5,7 +5,6 @@
 #define MODULE_NAME json
 
 
-
 define_function(key_value) {
     json_t* json = module()->data;
     if (json == NULL) {
@@ -27,6 +26,7 @@ define_function(key_value) {
 
     return_integer(0);
 }
+
 
 begin_declarations;
 
